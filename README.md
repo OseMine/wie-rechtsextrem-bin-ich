@@ -24,6 +24,8 @@ Interaktiver Fragebogen zu rechtsextremen Einstellungen auf Basis der **Rechtsex
 
 Einfach `index.html` im Browser öffnen. Kein Server nötig.
 
+Online-Version: [wie-rechtsextrem-bin-ich-iota.vercel.app](https://wie-rechtsextrem-bin-ich-iota.vercel.app/)
+
 ## Quelle
 
 Bertelsmann Stiftung (2021). *EINWURF – Zukunft der Demokratie 01.2021: Rechtsextreme Einstellungen der Wähler:innen vor der Bundestagswahl 2021*.
