@@ -98,11 +98,11 @@ const TOTAL = QUESTIONS.length;
 const BADGE_COLORS = ["#66bb6a", "#26a69a", "#ffb74d", "#ff7043", "#ef5350", "#ab47bc"];
 
 const OPTIONS = [
-  { label: "Lehne völlig ab", value: 1, cls: "opt-1" },
-  { label: "Lehne überwiegend ab", value: 2, cls: "opt-2" },
-  { label: "Teils/teils", value: 3, cls: "opt-3" },
-  { label: "Stimme überwiegend zu", value: 4, cls: "opt-4" },
-  { label: "Stimme voll und ganz zu", value: 5, cls: "opt-5" }
+  { label: "Lehne völlig ab", value: 1, cls: "opt-1", icon: "\u2716" },
+  { label: "Lehne überwiegend ab", value: 2, cls: "opt-2", icon: "\u25B7" },
+  { label: "Teils/teils", value: 3, cls: "opt-3", icon: "\u2014" },
+  { label: "Stimme überwiegend zu", value: 4, cls: "opt-4", icon: "\u25B9" },
+  { label: "Stimme voll und ganz zu", value: 5, cls: "opt-5", icon: "\u2605" }
 ];
 
 const DIM_THRESHOLDS = [
@@ -186,12 +186,19 @@ function renderQuestion(idx) {
       if (radio.checked) {
         label.classList.add("selected");
         answers[key] = opt.value;
+        setTimeout(() => document.getElementById("next-btn").click(), 200);
       }
       updateNavButtons();
     });
 
+    const iconSpan = document.createElement("span");
+    iconSpan.className = "option-icon";
+    iconSpan.textContent = opt.icon;
     label.appendChild(radio);
-    label.appendChild(document.createTextNode(opt.label));
+    label.appendChild(iconSpan);
+    const textSpan = document.createElement("span");
+    textSpan.textContent = opt.label;
+    label.appendChild(textSpan);
     optsDiv.appendChild(label);
   });
 
@@ -252,28 +259,46 @@ function showResults() {
   showScreen("results-screen");
 
   const overall = evaluateOverall();
+
+  const ringColor = overall.css === "green" ? "#4caf50" : overall.css === "yellow" ? "#ffc107" : "#ef5350";
+  const pct = Math.round((overall.total / 90) * 100);
+
   document.getElementById("overall-result").innerHTML =
-    `<div class="overall-box ${overall.css}">
-      <div class="score">${overall.total} / 90</div>
-      <div class="label">${overall.label} (Durchschnitt: ${overall.mean.toFixed(2)})</div>
-    </div>`;
+    `<div class="score-ring-wrap">
+      <svg class="score-ring" viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="#e0e0e0" stroke-width="8"/>
+        <circle id="score-ring-fill" cx="60" cy="60" r="52" fill="none" stroke="${ringColor}" stroke-width="8"
+          stroke-linecap="round" stroke-dasharray="${pct * 3.267}" stroke-dashoffset="328"
+          transform="rotate(-90 60 60)" style="transition: stroke-dashoffset 1s ease"/>
+      </svg>
+      <div class="score-ring-text">
+        <div class="score-number">${overall.total}</div>
+        <div class="score-max">/ 90</div>
+      </div>
+    </div>
+    <div class="overall-label ${overall.css}">${overall.label}</div>
+    <div class="overall-avg">Durchschnitt: ${overall.mean.toFixed(2)}</div>`;
+
+  requestAnimationFrame(() => {
+    document.getElementById("score-ring-fill").style.strokeDashoffset = 328 - pct * 3.267;
+  });
 
   const dimResults = document.getElementById("dimension-results");
   dimResults.innerHTML = "";
   data.dimensionen.forEach((dim, dimIdx) => {
     const res = evaluateDimension(dimIdx);
-    const pct = Math.round((res.sum / 15) * 100);
+    const dpct = Math.round((res.sum / 15) * 100);
     const box = document.createElement("div");
     box.className = "dim-result";
     box.innerHTML =
       `<div class="dim-header">
         <span class="dim-name">${dimIdx + 1}. ${dim.name}</span>
-        <span class="dim-score">${res.sum} / 15</span>
+        <span class="dim-score ${res.css}">${res.sum} / 15</span>
       </div>
       <div class="dim-bar-bg">
-        <div class="dim-bar-fill ${res.css}" style="width:${pct}%"></div>
+        <div class="dim-bar-fill ${res.css}" style="width:${dpct}%"></div>
       </div>
-      <div class="dim-status ${res.css}">${res.label} (MW: ${res.mean.toFixed(2)})</div>`;
+      <div class="dim-status ${res.css}">${res.label}</div>`;
     dimResults.appendChild(box);
   });
 
@@ -287,9 +312,50 @@ function showResults() {
     &bull; &lt; 54 = nicht rechtsextrem<br>
     &bull; 54–62 = latent rechtsextrem<br>
     &bull; ≥ 63 = manifest rechtsextrem (MW ≥ 3.5)`;
+
+  const helpContainer = document.getElementById("help-btn-container");
+  helpContainer.innerHTML = "";
+  const helpBtn = document.createElement("button");
+  helpBtn.id = "help-btn-results";
+  helpBtn.textContent = "Hilfe & Beratung";
+  if (overall.css === "green") {
+    helpBtn.className = "btn-help btn-help-subtle";
+  } else if (overall.css === "yellow") {
+    helpBtn.className = "btn-help btn-help-notice";
+  } else {
+    helpBtn.className = "btn-help btn-help-urgent";
+  }
+  helpBtn.addEventListener("click", () => showScreen("help-screen"));
+  helpContainer.appendChild(helpBtn);
+}
+
+function getSystemTheme() {
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
+function applyTheme(theme, persist) {
+  document.documentElement.classList.toggle("dark", theme === "dark");
+  const btn = document.getElementById("theme-toggle");
+  if (btn) btn.innerHTML = theme === "dark" ? "&#9728;" : "&#9790;";
+  if (persist !== false) localStorage.setItem("theme", theme);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  const saved = localStorage.getItem("theme");
+  const theme = saved || getSystemTheme();
+  applyTheme(theme, !!saved);
+
+  document.getElementById("theme-toggle").addEventListener("click", () => {
+    const isDark = document.documentElement.classList.contains("dark");
+    applyTheme(isDark ? "light" : "dark", true);
+  });
+
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+    if (!localStorage.getItem("theme")) {
+      applyTheme(getSystemTheme(), false);
+    }
+  });
+
   document.getElementById("start-btn").addEventListener("click", () => {
     showScreen("test-screen");
     currentIdx = 0;
@@ -310,6 +376,21 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       showResults();
     }
+  });
+
+  document.getElementById("help-back-btn").addEventListener("click", () => {
+    if (Object.keys(answers).length > 0) {
+      showScreen("results-screen");
+    } else {
+      showScreen("welcome-screen");
+    }
+  });
+
+  document.getElementById("toggle-details-btn").addEventListener("click", () => {
+    const section = document.getElementById("details-section");
+    const btn = document.getElementById("toggle-details-btn");
+    const isHidden = section.classList.toggle("hidden");
+    btn.textContent = isHidden ? "Details anzeigen" : "Details ausblenden";
   });
 
   document.getElementById("restart-btn").addEventListener("click", () => {

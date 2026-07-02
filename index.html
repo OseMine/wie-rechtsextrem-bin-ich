@@ -5,10 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rechtsextreme Einstellungen – Test</title>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
 <body>
 
 <div id="app">
+  <button id="theme-toggle" aria-label="Dark/Light umschalten">&#9790;</button>
   <div id="welcome-screen" class="screen active">
     <div class="card">
       <h1>Rechtsextreme Einstellungen</h1>
@@ -45,13 +47,101 @@
     <div class="card results-card">
       <h1>Deine Ergebnisse</h1>
       <div id="overall-result"></div>
-      <div id="dimension-results"></div>
-      <div id="score-details"></div>
+      <button id="toggle-details-btn" class="btn btn-outline">Details anzeigen</button>
+      <div id="details-section" class="hidden">
+        <div id="dimension-results"></div>
+        <div id="score-details"></div>
+      </div>
+      <div id="help-btn-container"></div>
       <button id="restart-btn" class="btn btn-primary">Test wiederholen</button>
+    </div>
+  </div>
+
+  <div id="help-screen" class="screen">
+    <div class="card">
+      <h1>Hilfe &amp; Beratung</h1>
+      <p class="desc">Wenn du Fragen zu deinen Ergebnissen hast oder dir Sorgen machst – hier findest du vertrauenswürdige Anlaufstellen und Beratungsangebote in deiner Nähe.</p>
+
+      <div class="help-map-wrap"><div id="help-map"></div></div>
+      <p class="help-map-hint">Die Karte zeigt Beratungsstellen gegen Rechtsextremismus (bundesweite Koordinierungsstellen). Erlaube Standortzugriff, um die nächsten Angebote zu finden.</p>
+
+      <div class="help-section">
+        <h3>Bundeszentrale für politische Bildung (bpb)</h3>
+        <p>Informationen und Hintergründe zu Rechtsextremismus und Demokratieförderung.</p>
+        <a href="https://www.bpb.de" target="_blank" rel="noopener">www.bpb.de</a>
+      </div>
+
+      <div class="help-section">
+        <h3>Opferberatung – Bundesverband RIAS</h3>
+        <p>Beratung und Unterstützung für Betroffene rechter, rassistischer und antisemitischer Gewalt.</p>
+        <a href="https://www.report-antisemitism.de" target="_blank" rel="noopener">www.report-antisemitism.de</a>
+      </div>
+
+      <div class="help-section">
+        <h3>Mobile Beratung gegen Rechtsextremismus</h3>
+        <p>Beratungsnetzwerke in allen Bundesländern für Menschen, die sich gegen Rechtsextremismus engagieren wollen.</p>
+        <a href="https://www.bundesprogramm-x.de" target="_blank" rel="noopener">www.bundesprogramm-x.de</a>
+      </div>
+
+      <div class="help-section">
+        <h3>Aussteigerhilfe Rechtsextremismus</h3>
+        <p>Unterstützung für Menschen, die sich von der rechtsextremen Szene lösen wollen.</p>
+        <a href="https://www.aussteigerhilfe-rechtsextremismus.de" target="_blank" rel="noopener">www.aussteigerhilfe-rechtsextremismus.de</a>
+      </div>
+
+      <div class="help-section">
+        <h3>Nummer gegen Kummer</h3>
+        <p>Kostenlose, anonyme Beratung für Jugendliche und Eltern – auch bei Fragen zu Extremismus.</p>
+        <a href="https://www.nummergegenkummer.de" target="_blank" rel="noopener">www.nummergegenkummer.de</a>
+      </div>
+
+      <button id="help-back-btn" class="btn btn-primary">Zurück</button>
     </div>
   </div>
 </div>
 
 <script src="script.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  let map = null;
+  async function initMap() {
+    if (map) return;
+    const isDark = document.documentElement.classList.contains("dark");
+    const tileUrl = isDark
+      ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+      : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+    const attr = isDark
+      ? "&copy; <a href='https://www.openstreetmap.org/copyright'>OSM</a> &copy; <a href='https://carto.com/'>CARTO</a>"
+      : "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>";
+
+    map = L.map("help-map").setView([51.5, 10], 5);
+    L.tileLayer(tileUrl, { maxZoom: 18, attribution: attr }).addTo(map);
+
+    const res = await fetch("help_centers.json");
+    const centers = await res.json();
+
+    centers.forEach(c => {
+      L.marker([c.lat, c.lon])
+        .addTo(map)
+        .bindPopup(`<a href="${c.url}" target="_blank" rel="noopener"><strong>${c.name}</strong></a>`);
+    });
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        pos => map.setView([pos.coords.latitude, pos.coords.longitude], 7),
+        () => {}
+      );
+    }
+  }
+
+  const observer = new MutationObserver(() => {
+    if (document.getElementById("help-screen").classList.contains("active") && !map) {
+      setTimeout(initMap, 300);
+    }
+  });
+  observer.observe(document.getElementById("help-screen"), { attributes: true, attributeFilter: ["class"] });
+});
+</script>
 </body>
 </html>
