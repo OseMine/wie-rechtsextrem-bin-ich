@@ -1,0 +1,4 @@
+{
+  "de": { "label": "Deutsch", "variants": ["standard", "ls"], "variantLabels": { "standard": "Standard", "ls": "Leichte Sprache" } },
+  "en": { "label": "English", "variants": ["standard", "ls"], "variantLabels": { "standard": "Standard", "ls": "Simple English" } }
+}

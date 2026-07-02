@@ -4,5 +4,11 @@
   { "name": "Aussteigerhilfe Rechtsextremismus", "lat": 50.931, "lon": 6.942, "url": "https://www.aussteigerhilfe-rechtsextremismus.de" },
   { "name": "bpb – Bundeszentrale für politische Bildung", "lat": 50.722, "lon": 7.086, "url": "https://www.bpb.de" },
   { "name": "Mobile Beratung – Bayern", "lat": 48.137, "lon": 11.575, "url": "https://www.bundesprogramm-x.de" },
-  { "name": "Mobile Beratung – Sachsen", "lat": 51.053, "lon": 13.739, "url": "https://www.bundesprogramm-x.de" }
+  { "name": "Mobile Beratung – Sachsen", "lat": 51.053, "lon": 13.739, "url": "https://www.bundesprogramm-x.de" },
+  { "name": "EXIT-Deutschland", "lat": 52.520, "lon": 13.404, "url": "https://www.exit-deutschland.de" },
+  { "name": "Aktion Neustart (Aussteigerprogramm Sachsen)", "lat": 51.050, "lon": 13.737, "url": "https://www.aktion-neustart.sachsen.de" },
+  { "name": "Kurswechsel (Aussteigerarbeit Hamburg)", "lat": 53.551, "lon": 9.993, "url": "https://www.kurswechsel-hamburg.de" },
+  { "name": "Ausstiegsprogramm für Rechtsextremistinnen und Rechtsextremisten des Bundes", "lat": 50.935, "lon": 6.953, "url": "https://www.verfassungsschutz.de/DE/service/aussteigerprogramm/aussteigerprogramm_node.html" },
+  { "name": "Gefängnis- und Aussteigerberatung (Violence Prevention Network)", "lat": 52.512, "lon": 13.381, "url": "https://violence-prevention-network.de" },
+  { "name": "Rückkehr (Aussteigerprogramm Nordrhein-Westfalen)", "lat": 51.227, "lon": 6.773, "url": "https://www.im.nrw/aussteigerprogramm-rechtsextremismus" }
 ]

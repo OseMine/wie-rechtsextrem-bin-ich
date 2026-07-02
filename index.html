@@ -10,21 +10,28 @@
 <body>
 
 <div id="app">
-  <button id="theme-toggle" aria-label="Dark/Light umschalten">&#9790;</button>
+  <div id="top-bar">
+    <div id="lang-group">
+      <select id="lang-select">
+        <option value="de">Deutsch</option>
+        <option value="en">English</option>
+      </select>
+      <select id="variant-select">
+        <option value="standard">Standard</option>
+        <option value="ls">Leichte Sprache</option>
+      </select>
+    </div>
+    <button id="theme-toggle">&#9790;</button>
+  </div>
+
   <div id="welcome-screen" class="screen active">
     <div class="card">
-      <h1>Rechtsextreme Einstellungen</h1>
-      <p class="subtitle">EINWURF – Zukunft der Demokratie 01.2021 &middot; Bertelsmann Stiftung</p>
-      <p class="desc">Dieser Fragebogen erfasst rechtsextreme Einstellungen anhand von <strong>18 Aussagen</strong> in <strong>6 Dimensionen</strong>. Bitte gib zu jeder Aussage an, inwieweit du zustimmst oder ablehnst.</p>
-      <ul class="scale-info">
-        <li><span class="dot opt-1-bg"></span> <strong>1</strong> – Lehne völlig ab</li>
-        <li><span class="dot opt-2-bg"></span> <strong>2</strong> – Lehne überwiegend ab</li>
-        <li><span class="dot opt-3-bg"></span> <strong>3</strong> – Teils/teils</li>
-        <li><span class="dot opt-4-bg"></span> <strong>4</strong> – Stimme überwiegend zu</li>
-        <li><span class="dot opt-5-bg"></span> <strong>5</strong> – Stimme voll und ganz zu</li>
-      </ul>
-      <p class="disclaimer">Hinweis: Dieser Test ersetzt keine professionelle Diagnose. Die Auswertung basiert auf der rechtsextremismus-Skala der Bertelsmann Stiftung.</p>
-      <button id="start-btn" class="btn btn-primary">Test starten</button>
+      <h1 id="welcome-title"></h1>
+      <p class="subtitle" id="welcome-subtitle"></p>
+      <p class="desc" id="welcome-desc"></p>
+      <ul class="scale-info" id="welcome-scale"></ul>
+      <p class="disclaimer" id="welcome-disclaimer"></p>
+      <button id="start-btn" class="btn btn-primary"></button>
     </div>
   </div>
 
@@ -37,65 +44,37 @@
       <h2 id="dimension-title"><span id="question-number-badge"></span><span id="dimension-name"></span></h2>
       <div id="questions-container"></div>
       <div class="nav-buttons">
-        <button id="prev-btn" class="btn btn-secondary" disabled>Zurück</button>
-        <button id="next-btn" class="btn btn-primary">Weiter</button>
+        <button id="prev-btn" class="btn btn-secondary" disabled></button>
+        <button id="next-btn" class="btn btn-primary"></button>
       </div>
     </div>
   </div>
 
   <div id="results-screen" class="screen">
     <div class="card results-card">
-      <h1>Deine Ergebnisse</h1>
+      <h1 id="results-title"></h1>
       <div id="overall-result"></div>
-      <button id="toggle-details-btn" class="btn btn-outline">Details anzeigen</button>
+      <button id="toggle-details-btn" class="btn btn-outline"></button>
       <div id="details-section" class="hidden">
         <div id="dimension-results"></div>
         <div id="score-details"></div>
       </div>
       <div id="help-btn-container"></div>
-      <button id="restart-btn" class="btn btn-primary">Test wiederholen</button>
+      <button id="restart-btn" class="btn btn-primary"></button>
     </div>
   </div>
 
   <div id="help-screen" class="screen">
     <div class="card">
-      <h1>Hilfe &amp; Beratung</h1>
-      <p class="desc">Wenn du Fragen zu deinen Ergebnissen hast oder dir Sorgen machst – hier findest du vertrauenswürdige Anlaufstellen und Beratungsangebote in deiner Nähe.</p>
+      <h1 id="help-title"></h1>
+      <p class="desc" id="help-desc"></p>
 
       <div class="help-map-wrap"><div id="help-map"></div></div>
-      <p class="help-map-hint">Die Karte zeigt Beratungsstellen gegen Rechtsextremismus (bundesweite Koordinierungsstellen). Erlaube Standortzugriff, um die nächsten Angebote zu finden.</p>
+      <p class="help-map-hint" id="help-map-hint"></p>
 
-      <div class="help-section">
-        <h3>Bundeszentrale für politische Bildung (bpb)</h3>
-        <p>Informationen und Hintergründe zu Rechtsextremismus und Demokratieförderung.</p>
-        <a href="https://www.bpb.de" target="_blank" rel="noopener">www.bpb.de</a>
-      </div>
+      <div id="help-entries"></div>
 
-      <div class="help-section">
-        <h3>Opferberatung – Bundesverband RIAS</h3>
-        <p>Beratung und Unterstützung für Betroffene rechter, rassistischer und antisemitischer Gewalt.</p>
-        <a href="https://www.report-antisemitism.de" target="_blank" rel="noopener">www.report-antisemitism.de</a>
-      </div>
-
-      <div class="help-section">
-        <h3>Mobile Beratung gegen Rechtsextremismus</h3>
-        <p>Beratungsnetzwerke in allen Bundesländern für Menschen, die sich gegen Rechtsextremismus engagieren wollen.</p>
-        <a href="https://www.bundesprogramm-x.de" target="_blank" rel="noopener">www.bundesprogramm-x.de</a>
-      </div>
-
-      <div class="help-section">
-        <h3>Aussteigerhilfe Rechtsextremismus</h3>
-        <p>Unterstützung für Menschen, die sich von der rechtsextremen Szene lösen wollen.</p>
-        <a href="https://www.aussteigerhilfe-rechtsextremismus.de" target="_blank" rel="noopener">www.aussteigerhilfe-rechtsextremismus.de</a>
-      </div>
-
-      <div class="help-section">
-        <h3>Nummer gegen Kummer</h3>
-        <p>Kostenlose, anonyme Beratung für Jugendliche und Eltern – auch bei Fragen zu Extremismus.</p>
-        <a href="https://www.nummergegenkummer.de" target="_blank" rel="noopener">www.nummergegenkummer.de</a>
-      </div>
-
-      <button id="help-back-btn" class="btn btn-primary">Zurück</button>
+      <button id="help-back-btn" class="btn btn-primary"></button>
     </div>
   </div>
 </div>

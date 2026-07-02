@@ -642,24 +642,48 @@ h1 {
   margin: 0 auto;
 }
 
+#top-bar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+#lang-group {
+  display: flex;
+  gap: 0.4rem;
+}
+
+#lang-select, #variant-select {
+  padding: 0.3rem 0.5rem;
+  border: 2px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  outline: none;
+}
+#lang-select:hover, #variant-select:hover {
+  border-color: var(--text-muted);
+}
+
 #theme-toggle {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  z-index: 100;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   border: 2px solid var(--border-strong);
   background: var(--card-bg);
   color: var(--text);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background 0.3s, border-color 0.3s;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   line-height: 1;
 }
 #theme-toggle:hover {

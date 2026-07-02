@@ -1,124 +1,50 @@
-const data = {
-  "studie": "EINWURF - Zukunft der Demokratie 01.2021",
-  "herausgeber": "Bertelsmann Stiftung",
-  "thema": "Rechtsextreme Einstellungen der Wähler:innen vor der Bundestagswahl 2021",
-  "methodik": {
-    "antwortkategorien_punkte": {
-      "lehne völlig ab": 1,
-      "lehne überwiegend ab": 2,
-      "teils/teils": 3,
-      "stimme überwiegend zu": 4,
-      "stimme voll und ganz zu": 5
-    },
-    "auswertung_pro_dimension": {
-      "schwellenwerte": {
-        "manifest rechtsextrem (Zustimmung)": "Mittelwert >= 4.0 (Summenindex >= 12)",
-        "latent rechtsextrem": "Mittelwert >= 3.0 (Summenindex >= 9)",
-        "nicht rechtsextrem": "Summenindex < 9"
-      }
-    },
-    "auswertung_gesamt": {
-      "schwellenwerte": {
-        "manifest rechtsextrem": "Summenindex >= 63 (Durchschnitt >= 3.5)",
-        "latent rechtsextrem": "Summenindex >= 54 (Durchschnitt >= 3.0)",
-        "nicht rechtsextrem": "Summenindex < 54"
-      }
-    }
-  },
-  "dimensionen": [
-    {
-      "id": 1,
-      "name": "Befürwortung einer rechtsgerichteten Diktatur",
-      "items": [
-        { "text": "Im nationalen Interesse ist unter bestimmten Umständen eine Diktatur die bessere Staatsform." },
-        { "text": "Was Deutschland jetzt braucht, ist eine einzige starke Partei, die die Volksgemeinschaft insgesamt verkörpert." },
-        { "text": "Wir sollten einen Führer haben, der Deutschland zum Wohle aller mit starker Hand regiert." }
-      ]
-    },
-    {
-      "id": 2,
-      "name": "Chauvinismus",
-      "items": [
-        { "text": "Wir sollten endlich wieder Mut zu einem starken Nationalgefühl haben." },
-        { "text": "Was unser Land heute braucht, ist ein hartes und energisches Durchsetzen deutscher Interessen gegenüber dem Ausland." },
-        { "text": "Das oberste Ziel der deutschen Politik sollte es sein, Deutschland die Macht und Geltung zu verschaffen, die ihm zusteht." }
-      ]
-    },
-    {
-      "id": 3,
-      "name": "Verharmlosung des Nationalsozialismus",
-      "items": [
-        { "text": "Ohne Judenvernichtung würde man Hitler heute als großen Staatsmann ansehen." },
-        { "text": "Die Verbrechen des Nationalsozialismus sind in der Geschichtsschreibung weit übertrieben worden." },
-        { "text": "Der Nationalsozialismus hatte auch seine guten Seiten." }
-      ]
-    },
-    {
-      "id": 4,
-      "name": "Fremdenfeindlichkeit",
-      "items": [
-        { "text": "Die Ausländer kommen nur hierher, um unseren Sozialstaat auszunutzen." },
-        { "text": "Wenn Arbeitsplätze knapp werden, sollte man die Ausländer wieder in ihre Heimat zurückschicken." },
-        { "text": "Die Bundesrepublik ist durch die vielen Ausländer in einem gefährlichen Maß überfremdet." }
-      ]
-    },
-    {
-      "id": 5,
-      "name": "Antisemitismus",
-      "items": [
-        { "text": "Auch heute noch ist der Einfluss der Juden zu groß." },
-        { "text": "Die Juden arbeiten mehr als andere Menschen mit üblen Tricks, um das zu erreichen, was sie wollen." },
-        { "text": "Die Juden haben einfach etwas Besonderes und Eigentümliches an sich und passen nicht so recht zu uns." }
-      ]
-    },
-    {
-      "id": 6,
-      "name": "Sozialdarwinismus",
-      "items": [
-        { "text": "Wie in der Natur sollte sich in der Gesellschaft immer der Stärkere durchsetzen." },
-        { "text": "Eigentlich sind die Deutschen anderen Völkern von Natur aus überlegen." },
-        { "text": "Es gibt wertvolles und unwertes Leben." }
-      ]
-    }
-  ]
-};
-
-const QUESTIONS = (() => {
-  const qs = [];
-  data.dimensionen.forEach(dim => {
-    dim.items.forEach(item => {
-      qs.push({ dimName: dim.name, text: item.text });
-    });
-  });
-  return qs;
-})();
-
-const TOTAL = QUESTIONS.length;
+let langData = {};
+let LANG_META = {};
+let lang = "de";
+let variant = "standard";
 
 const BADGE_COLORS = ["#66bb6a", "#26a69a", "#ffb74d", "#ff7043", "#ef5350", "#ab47bc"];
 
 const OPTIONS = [
-  { label: "Lehne völlig ab", value: 1, cls: "opt-1", icon: "\u2716" },
-  { label: "Lehne überwiegend ab", value: 2, cls: "opt-2", icon: "\u25B7" },
-  { label: "Teils/teils", value: 3, cls: "opt-3", icon: "\u2014" },
-  { label: "Stimme überwiegend zu", value: 4, cls: "opt-4", icon: "\u25B9" },
-  { label: "Stimme voll und ganz zu", value: 5, cls: "opt-5", icon: "\u2605" }
+  { cls: "opt-1", icon: "\u2716" },
+  { cls: "opt-2", icon: "\u25B7" },
+  { cls: "opt-3", icon: "\u2014" },
+  { cls: "opt-4", icon: "\u25B9" },
+  { cls: "opt-5", icon: "\u2605" }
 ];
 
 const DIM_THRESHOLDS = [
-  { max: 8, label: "Nicht rechtsextrem", css: "green" },
-  { min: 9, max: 11, label: "Latent rechtsextrem", css: "yellow" },
-  { min: 12, label: "Manifest rechtsextrem", css: "red" }
+  { max: 8, css: "green" },
+  { min: 9, max: 11, css: "yellow" },
+  { min: 12, css: "red" }
 ];
 
 const OVERALL_THRESHOLDS = [
-  { max: 53, label: "Nicht rechtsextrem", css: "green" },
-  { min: 54, max: 62, label: "Latent rechtsextrem", css: "yellow" },
-  { min: 63, label: "Manifest rechtsextrem", css: "red" }
+  { max: 53, css: "green" },
+  { min: 54, max: 62, css: "yellow" },
+  { min: 63, css: "red" }
 ];
 
 const answers = {};
 let currentIdx = 0;
+
+function t(key, ...args) {
+  let val = langData;
+  const parts = key.split(".");
+  for (const p of parts) val = val[p];
+  if (args.length && typeof val === "string") {
+    return val.replace(/\{(\w+)\}/g, (_, k) => args[0][k] !== undefined ? args[0][k] : _);
+  }
+  return val;
+}
+
+function getQuestions() {
+  return t("questions");
+}
+
+function getDimNames() {
+  return t("dimNames");
+}
 
 function showScreen(id) {
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
@@ -127,10 +53,7 @@ function showScreen(id) {
 
 function getDimItem(idx) {
   let dimIdx = 0, itemIdx = idx;
-  while (itemIdx >= data.dimensionen[dimIdx].items.length) {
-    itemIdx -= data.dimensionen[dimIdx].items.length;
-    dimIdx++;
-  }
+  while (itemIdx >= 3) { itemIdx -= 3; dimIdx++; }
   return { dimIdx, itemIdx };
 }
 
@@ -139,15 +62,73 @@ function answerKey(idx) {
   return `${dimIdx}_${itemIdx}`;
 }
 
-function renderQuestion(idx) {
-  const q = QUESTIONS[idx];
-  const { dimIdx } = getDimItem(idx);
-  const container = document.getElementById("questions-container");
-  const title = document.getElementById("dimension-title");
-  document.getElementById("question-number-badge").textContent = `Frage ${idx + 1}`;
-  document.getElementById("question-number-badge").style.background = BADGE_COLORS[idx % BADGE_COLORS.length];
-  document.getElementById("dimension-name").textContent = q.dimName;
+function updateVariantOptions() {
+  const meta = LANG_META[lang];
+  const sel = document.getElementById("variant-select");
+  const current = sel.value;
+  sel.innerHTML = meta.variants.map(v =>
+    `<option value="${v}">${meta.variantLabels[v]}</option>`
+  ).join("");
+  if (meta.variants.includes(current)) sel.value = current;
+  else sel.value = meta.variants[0];
+  sel.style.display = meta.variants.length > 1 ? "" : "none";
+}
 
+function renderLanguage() {
+  document.documentElement.lang = lang === "de" ? "de" : "en";
+
+  document.getElementById("welcome-title").textContent = t("welcomeTitle");
+  document.getElementById("welcome-subtitle").textContent = t("welcomeSubtitle");
+  document.getElementById("welcome-desc").innerHTML = t("welcomeDesc");
+
+  const scaleLabels = t("welcomeScale");
+  document.getElementById("welcome-scale").innerHTML = scaleLabels.map((l, i) =>
+    `<li><span class="dot opt-${i + 1}-bg"></span> <strong>${i + 1}</strong> – ${l}</li>`
+  ).join("");
+
+  document.getElementById("welcome-disclaimer").textContent = t("welcomeDisclaimer");
+  document.getElementById("start-btn").textContent = t("startBtn");
+  document.getElementById("prev-btn").textContent = t("prevBtn");
+
+  document.getElementById("results-title").textContent = t("resultsTitle");
+  document.getElementById("toggle-details-btn").textContent = t("detailsBtn");
+  document.getElementById("restart-btn").textContent = t("restartBtn");
+
+  document.getElementById("help-title").textContent = t("helpTitle");
+  document.getElementById("help-desc").textContent = t("helpDesc");
+  document.getElementById("help-map-hint").textContent = t("helpMapHint");
+  document.getElementById("help-back-btn").textContent = t("helpBack");
+
+  const helpEntries = t("helpEntries");
+  const container = document.getElementById("help-entries");
+  container.innerHTML = "";
+  helpEntries.forEach(e => {
+    const div = document.createElement("div");
+    div.className = "help-section";
+    div.innerHTML = `<h3>${e.title}</h3><p>${e.desc}</p><a href="${e.url}" target="_blank" rel="noopener">${e.url}</a>`;
+    container.appendChild(div);
+  });
+
+  if (document.getElementById("test-screen").classList.contains("active")) {
+    renderQuestion(currentIdx);
+  }
+  if (document.getElementById("results-screen").classList.contains("active")) {
+    showResults();
+  }
+}
+
+function renderQuestion(idx) {
+  const qs = getQuestions();
+  const q = qs[idx];
+  const dimNames = getDimNames();
+  const { dimIdx } = getDimItem(idx);
+  const qLabel = lang === "en" ? "Q" : "Frage";
+
+  document.getElementById("question-number-badge").textContent = `${qLabel} ${idx + 1}`;
+  document.getElementById("question-number-badge").style.background = BADGE_COLORS[idx % BADGE_COLORS.length];
+  document.getElementById("dimension-name").textContent = dimNames[dimIdx];
+
+  const container = document.getElementById("questions-container");
   container.innerHTML = "";
   const key = answerKey(idx);
   const div = document.createElement("div");
@@ -155,7 +136,7 @@ function renderQuestion(idx) {
 
   const qText = document.createElement("div");
   qText.className = "question-text";
-  qText.textContent = q.text;
+  qText.textContent = q;
   div.appendChild(qText);
 
   const accentBar = document.createElement("div");
@@ -165,16 +146,17 @@ function renderQuestion(idx) {
 
   const optsDiv = document.createElement("div");
   optsDiv.className = "options";
+  const scaleLabels = t("welcomeScale");
 
-  OPTIONS.forEach(opt => {
+  OPTIONS.forEach((opt, oi) => {
     const label = document.createElement("label");
     label.className = "option-label " + opt.cls;
 
     const radio = document.createElement("input");
     radio.type = "radio";
     radio.name = "q";
-    radio.value = opt.value;
-    if (answers[key] === opt.value) {
+    radio.value = oi + 1;
+    if (answers[key] === oi + 1) {
       radio.checked = true;
       label.classList.add("selected");
     }
@@ -185,7 +167,7 @@ function renderQuestion(idx) {
       });
       if (radio.checked) {
         label.classList.add("selected");
-        answers[key] = opt.value;
+        answers[key] = oi + 1;
         setTimeout(() => document.getElementById("next-btn").click(), 200);
       }
       updateNavButtons();
@@ -197,7 +179,7 @@ function renderQuestion(idx) {
     label.appendChild(radio);
     label.appendChild(iconSpan);
     const textSpan = document.createElement("span");
-    textSpan.textContent = opt.label;
+    textSpan.textContent = scaleLabels[oi];
     label.appendChild(textSpan);
     optsDiv.appendChild(label);
   });
@@ -210,48 +192,41 @@ function renderQuestion(idx) {
 }
 
 function updateProgress() {
+  const total = getQuestions().length;
   const fill = document.getElementById("progress-fill");
   const text = document.getElementById("progress-text");
-  const pct = Math.round(((currentIdx + 1) / TOTAL) * 100);
+  const pct = Math.round(((currentIdx + 1) / total) * 100);
   fill.style.width = pct + "%";
-  text.textContent = `Frage ${currentIdx + 1} von ${TOTAL}`;
+  text.textContent = t("progressQ", { n: currentIdx + 1, total });
 }
 
 function updateNavButtons() {
-  const prev = document.getElementById("prev-btn");
-  const next = document.getElementById("next-btn");
-  prev.disabled = currentIdx === 0;
-  next.disabled = answers[answerKey(currentIdx)] === undefined;
-  next.textContent = currentIdx === TOTAL - 1 ? "Ergebnisse anzeigen" : "Weiter";
+  const total = getQuestions().length;
+  document.getElementById("prev-btn").disabled = currentIdx === 0;
+  document.getElementById("next-btn").disabled = answers[answerKey(currentIdx)] === undefined;
+  document.getElementById("next-btn").textContent = currentIdx === total - 1 ? t("resultsBtn") : t("nextBtn");
 }
 
 function evaluateDimension(dimIdx) {
-  const dim = data.dimensionen[dimIdx];
   let sum = 0;
-  dim.items.forEach((_, itemIdx) => {
-    const key = `${dimIdx}_${itemIdx}`;
-    sum += answers[key] || 0;
-  });
-  const mean = sum / dim.items.length;
+  for (let itemIdx = 0; itemIdx < 3; itemIdx++) sum += answers[`${dimIdx}_${itemIdx}`] || 0;
+  const mean = sum / 3;
   for (const t of DIM_THRESHOLDS) {
-    if ((t.min === undefined || sum >= t.min) && (t.max === undefined || sum <= t.max)) {
-      return { sum, mean, label: t.label, css: t.css };
-    }
+    if ((t.min === undefined || sum >= t.min) && (t.max === undefined || sum <= t.max))
+      return { sum, mean, labelIdx: DIM_THRESHOLDS.indexOf(t), css: t.css };
   }
 }
 
 function evaluateOverall() {
   let total = 0;
-  data.dimensionen.forEach((dim, dimIdx) => {
-    dim.items.forEach((_, itemIdx) => {
-      total += answers[`${dimIdx}_${itemIdx}`] || 0;
-    });
-  });
-  const mean = total / TOTAL;
+  for (let i = 0; i < 18; i++) {
+    const { dimIdx, itemIdx } = getDimItem(i);
+    total += answers[`${dimIdx}_${itemIdx}`] || 0;
+  }
+  const mean = total / 18;
   for (const t of OVERALL_THRESHOLDS) {
-    if ((t.min === undefined || total >= t.min) && (t.max === undefined || total <= t.max)) {
-      return { total, mean, label: t.label, css: t.css };
-    }
+    if ((t.min === undefined || total >= t.min) && (t.max === undefined || total <= t.max))
+      return { total, mean, labelIdx: OVERALL_THRESHOLDS.indexOf(t), css: t.css };
   }
 }
 
@@ -259,9 +234,9 @@ function showResults() {
   showScreen("results-screen");
 
   const overall = evaluateOverall();
-
   const ringColor = overall.css === "green" ? "#4caf50" : overall.css === "yellow" ? "#ffc107" : "#ef5350";
   const pct = Math.round((overall.total / 90) * 100);
+  const overallLabels = t("overallLabel");
 
   document.getElementById("overall-result").innerHTML =
     `<div class="score-ring-wrap">
@@ -276,8 +251,8 @@ function showResults() {
         <div class="score-max">/ 90</div>
       </div>
     </div>
-    <div class="overall-label ${overall.css}">${overall.label}</div>
-    <div class="overall-avg">Durchschnitt: ${overall.mean.toFixed(2)}</div>`;
+    <div class="overall-label ${overall.css}">${overallLabels[overall.labelIdx]}</div>
+    <div class="overall-avg">${t("avgLabel", { n: overall.mean.toFixed(2) })}</div>`;
 
   requestAnimationFrame(() => {
     document.getElementById("score-ring-fill").style.strokeDashoffset = 328 - pct * 3.267;
@@ -285,46 +260,45 @@ function showResults() {
 
   const dimResults = document.getElementById("dimension-results");
   dimResults.innerHTML = "";
-  data.dimensionen.forEach((dim, dimIdx) => {
+  const dimNames = getDimNames();
+  const dimLabels = t("dimLabels");
+
+  for (let dimIdx = 0; dimIdx < 6; dimIdx++) {
     const res = evaluateDimension(dimIdx);
     const dpct = Math.round((res.sum / 15) * 100);
     const box = document.createElement("div");
     box.className = "dim-result";
     box.innerHTML =
       `<div class="dim-header">
-        <span class="dim-name">${dimIdx + 1}. ${dim.name}</span>
+        <span class="dim-name">${dimIdx + 1}. ${dimNames[dimIdx]}</span>
         <span class="dim-score ${res.css}">${res.sum} / 15</span>
       </div>
       <div class="dim-bar-bg">
         <div class="dim-bar-fill ${res.css}" style="width:${dpct}%"></div>
       </div>
-      <div class="dim-status ${res.css}">${res.label}</div>`;
+      <div class="dim-status ${res.css}">${dimLabels[res.labelIdx]}</div>`;
     dimResults.appendChild(box);
-  });
+  }
 
   document.getElementById("score-details").innerHTML =
-    `<strong>Auswertungsschlüssel (Bertelsmann Stiftung)</strong><br>
-    <strong>Pro Dimension</strong> (3 Items, 3–15 Punkte):<br>
-    &bull; &lt; 9 = nicht rechtsextrem<br>
-    &bull; 9–11 = latent rechtsextrem<br>
-    &bull; ≥ 12 = manifest rechtsextrem (MW ≥ 4.0)<br><br>
-    <strong>Gesamtergebnis</strong> (18 Items, 18–90 Punkte):<br>
-    &bull; &lt; 54 = nicht rechtsextrem<br>
-    &bull; 54–62 = latent rechtsextrem<br>
-    &bull; ≥ 63 = manifest rechtsextrem (MW ≥ 3.5)`;
+    `<strong>${t("scoreDetailsTitle")}</strong><br>
+    <strong>${t("scoreDetailsDim")}</strong><br>
+    &bull; ${t("scoreDetailsDimRule1")}<br>
+    &bull; ${t("scoreDetailsDimRule2")}<br>
+    &bull; ${t("scoreDetailsDimRule3")}<br><br>
+    <strong>${t("scoreDetailsTotal")}</strong><br>
+    &bull; ${t("scoreDetailsTotalRule1")}<br>
+    &bull; ${t("scoreDetailsTotalRule2")}<br>
+    &bull; ${t("scoreDetailsTotalRule3")}`;
 
   const helpContainer = document.getElementById("help-btn-container");
   helpContainer.innerHTML = "";
   const helpBtn = document.createElement("button");
   helpBtn.id = "help-btn-results";
-  helpBtn.textContent = "Hilfe & Beratung";
-  if (overall.css === "green") {
-    helpBtn.className = "btn-help btn-help-subtle";
-  } else if (overall.css === "yellow") {
-    helpBtn.className = "btn-help btn-help-notice";
-  } else {
-    helpBtn.className = "btn-help btn-help-urgent";
-  }
+  helpBtn.textContent = t("helpResultBtn");
+  if (overall.css === "green") helpBtn.className = "btn-help btn-help-subtle";
+  else if (overall.css === "yellow") helpBtn.className = "btn-help btn-help-notice";
+  else helpBtn.className = "btn-help btn-help-urgent";
   helpBtn.addEventListener("click", () => showScreen("help-screen"));
   helpContainer.appendChild(helpBtn);
 }
@@ -336,24 +310,76 @@ function getSystemTheme() {
 function applyTheme(theme, persist) {
   document.documentElement.classList.toggle("dark", theme === "dark");
   const btn = document.getElementById("theme-toggle");
-  if (btn) btn.innerHTML = theme === "dark" ? "&#9728;" : "&#9790;";
+  if (btn) {
+    btn.innerHTML = theme === "dark" ? "&#9728;" : "&#9790;";
+    btn.setAttribute("aria-label", theme === "dark" ? "Light mode" : "Dark mode");
+  }
   if (persist !== false) localStorage.setItem("theme", theme);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const saved = localStorage.getItem("theme");
-  const theme = saved || getSystemTheme();
-  applyTheme(theme, !!saved);
+async function loadLanguage(l, v) {
+  const metaResp = await fetch("i18n/meta.json");
+  LANG_META = await metaResp.json();
 
-  document.getElementById("theme-toggle").addEventListener("click", () => {
-    const isDark = document.documentElement.classList.contains("dark");
-    applyTheme(isDark ? "light" : "dark", true);
-  });
+  if (!LANG_META[l]) { l = "de"; v = "standard"; }
+  if (!LANG_META[l].variants.includes(v)) v = LANG_META[l].variants[0];
+
+  const resp = await fetch(`i18n/${l}/${v}.json`);
+  langData = await resp.json();
+
+  lang = l;
+  variant = v;
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const savedTheme = localStorage.getItem("theme");
+  applyTheme(savedTheme || getSystemTheme(), !!savedTheme);
 
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
-    if (!localStorage.getItem("theme")) {
-      applyTheme(getSystemTheme(), false);
-    }
+    if (!localStorage.getItem("theme")) applyTheme(getSystemTheme(), false);
+  });
+
+  const saved = localStorage.getItem("lang");
+  let initLang = "de";
+  let initVariant = "standard";
+  if (saved) {
+    const parts = saved.split("_");
+    initLang = parts[0] || "de";
+    initVariant = parts[1] || "standard";
+  }
+
+  await loadLanguage(initLang, initVariant);
+
+  document.getElementById("lang-select").value = lang;
+  updateVariantOptions();
+  document.getElementById("variant-select").value = variant;
+
+  renderLanguage();
+
+  document.getElementById("lang-select").addEventListener("change", async (e) => {
+    const newLang = e.target.value;
+    if (!LANG_META[newLang]) return;
+    variant = LANG_META[newLang].variants[0];
+    const resp = await fetch(`i18n/${newLang}/${variant}.json`);
+    langData = await resp.json();
+    lang = newLang;
+    document.getElementById("variant-select").value = variant;
+    updateVariantOptions();
+    localStorage.setItem("lang", lang + "_" + variant);
+    renderLanguage();
+  });
+
+  document.getElementById("variant-select").addEventListener("change", async (e) => {
+    const newVariant = e.target.value;
+    const resp = await fetch(`i18n/${lang}/${newVariant}.json`);
+    langData = await resp.json();
+    variant = newVariant;
+    localStorage.setItem("lang", lang + "_" + variant);
+    renderLanguage();
+  });
+
+  document.getElementById("theme-toggle").addEventListener("click", () => {
+    applyTheme(document.documentElement.classList.contains("dark") ? "light" : "dark", true);
   });
 
   document.getElementById("start-btn").addEventListener("click", () => {
@@ -363,34 +389,24 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.getElementById("prev-btn").addEventListener("click", () => {
-    if (currentIdx > 0) {
-      currentIdx--;
-      renderQuestion(currentIdx);
-    }
+    if (currentIdx > 0) { currentIdx--; renderQuestion(currentIdx); }
   });
 
   document.getElementById("next-btn").addEventListener("click", () => {
-    if (currentIdx < TOTAL - 1) {
-      currentIdx++;
-      renderQuestion(currentIdx);
-    } else {
-      showResults();
-    }
+    const total = getQuestions().length;
+    if (currentIdx < total - 1) { currentIdx++; renderQuestion(currentIdx); }
+    else showResults();
   });
 
   document.getElementById("help-back-btn").addEventListener("click", () => {
-    if (Object.keys(answers).length > 0) {
-      showScreen("results-screen");
-    } else {
-      showScreen("welcome-screen");
-    }
+    showScreen(Object.keys(answers).length > 0 ? "results-screen" : "welcome-screen");
   });
 
   document.getElementById("toggle-details-btn").addEventListener("click", () => {
     const section = document.getElementById("details-section");
     const btn = document.getElementById("toggle-details-btn");
     const isHidden = section.classList.toggle("hidden");
-    btn.textContent = isHidden ? "Details anzeigen" : "Details ausblenden";
+    btn.textContent = isHidden ? t("detailsBtn") : t("detailsHide");
   });
 
   document.getElementById("restart-btn").addEventListener("click", () => {
