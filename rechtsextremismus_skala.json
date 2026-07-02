@@ -1,0 +1,267 @@
+{
+    "studie": "EINWURF - Zukunft der Demokratie 01.2021",
+    "herausgeber": "Bertelsmann Stiftung",
+    "thema": "Rechtsextreme Einstellungen der Wähler:innen vor der Bundestagswahl 2021",
+    "methodik": {
+        "skala_beschreibung": "5-stufige Likert-Skala für jedes Item",
+        "antwortkategorien_punkte": {
+            "lehne völlig ab": 1,
+            "lehne überwiegend ab": 2,
+            "teils/teils": 3,
+            "stimme überwiegend zu": 4,
+            "stimme voll und ganz zu": 5
+        },
+        "auswertung_pro_dimension": {
+            "beschreibung": "Summenindex aus 3 Items pro Dimension (Min: 3, Max: 15 Punkte)",
+            "schwellenwerte": {
+                "manifest rechtsextrem (Zustimmung)": "Mittelwert >= 4.0 (Summenindex >= 12)",
+                "latent rechtsextrem": "Mittelwert >= 3.0 (Summenindex >= 9)",
+                "nicht rechtsextrem": "Summenindex < 9"
+            }
+        },
+        "auswertung_gesamt": {
+            "beschreibung": "Summenindex über alle 18 Items (Min: 18, Max: 90 Punkte)",
+            "schwellenwerte": {
+                "manifest rechtsextrem": "Summenindex >= 63 (Durchschnitt >= 3.5)",
+                "latent rechtsextrem": "Summenindex >= 54 (Durchschnitt >= 3.0)",
+                "nicht rechtsextrem": "Summenindex < 54"
+            }
+        }
+    },
+    "dimensionen": [
+        {
+            "id": 1,
+            "name": "Befürwortung einer rechtsgerichteten Diktatur",
+            "items": [
+                {
+                    "item_id": "D1_1",
+                    "text": "Im nationalen Interesse ist unter bestimmten Umständen eine Diktatur die bessere Staatsform.",
+                    "bewertung": {
+                        "lehne völlig ab": 1,
+                        "lehne überwiegend ab": 2,
+                        "teils/teils": 3,
+                        "stimme überwiegend zu": 4,
+                        "stimme voll und ganz zu": 5
+                    }
+                },
+                {
+                    "item_id": "D1_2",
+                    "text": "Was Deutschland jetzt braucht, ist eine einzige starke Partei, die die Volksgemeinschaft insgesamt verkörpert.",
+                    "bewertung": {
+                        "lehne völlig ab": 1,
+                        "lehne überwiegend ab": 2,
+                        "teils/teils": 3,
+                        "stimme überwiegend zu": 4,
+                        "stimme voll und ganz zu": 5
+                    }
+                },
+                {
+                    "item_id": "D1_3",
+                    "text": "Wir sollten einen Führer haben, der Deutschland zum Wohle aller mit starker Hand regiert.",
+                    "bewertung": {
+                        "lehne völlig ab": 1,
+                        "lehne überwiegend ab": 2,
+                        "teils/teils": 3,
+                        "stimme überwiegend zu": 4,
+                        "stimme voll und ganz zu": 5
+                    }
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Chauvinismus",
+            "items": [
+                {
+                    "item_id": "D2_1",
+                    "text": "Wir sollten endlich wieder Mut zu einem starken Nationalgefühl haben.",
+                    "bewertung": {
+                        "lehne völlig ab": 1,
+                        "lehne überwiegend ab": 2,
+                        "teils/teils": 3,
+                        "stimme überwiegend zu": 4,
+                        "stimme voll und ganz zu": 5
+                    }
+                },
+                {
+                    "item_id": "D2_2",
+                    "text": "Was unser Land heute braucht, ist ein hartes und energisches Durchsetzen deutscher Interessen gegenüber dem Ausland.",
+                    "bewertung": {
+                        "lehne völlig ab": 1,
+                        "lehne überwiegend ab": 2,
+                        "teils/teils": 3,
+                        "stimme überwiegend zu": 4,
+                        "stimme voll und ganz zu": 5
+                    }
+                },
+                {
+                    "item_id": "D2_3",
+                    "text": "Das oberste Ziel der deutschen Politik sollte es sein, Deutschland die Macht und Geltung zu verschaffen, die ihm zusteht.",
+                    "bewertung": {
+                        "lehne völlig ab": 1,
+                        "lehne überwiegend ab": 2,
+                        "teils/teils": 3,
+                        "stimme überwiegend zu": 4,
+                        "stimme voll und ganz zu": 5
+                    }
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Verharmlosung des Nationalsozialismus",
+            "items": [
+                {
+                    "item_id": "D3_1",
+                    "text": "Ohne Judenvernichtung würde man Hitler heute als großen Staatsmann ansehen.",
+                    "bewertung": {
+                        "lehne völlig ab": 1,
+                        "lehne überwiegend ab": 2,
+                        "teils/teils": 3,
+                        "stimme überwiegend zu": 4,
+                        "stimme voll und ganz zu": 5
+                    }
+                },
+                {
+                    "item_id": "D3_2",
+                    "text": "Die Verbrechen des Nationalsozialismus sind in der Geschichtsschreibung weit übertrieben worden.",
+                    "bewertung": {
+                        "lehne völlig ab": 1,
+                        "lehne überwiegend ab": 2,
+                        "teils/teils": 3,
+                        "stimme überwiegend zu": 4,
+                        "stimme voll und ganz zu": 5
+                    }
+                },
+                {
+                    "item_id": "D3_3",
+                    "text": "Der Nationalsozialismus hatte auch seine guten Seiten.",
+                    "bewertung": {
+                        "lehne völlig ab": 1,
+                        "lehne überwiegend ab": 2,
+                        "teils/teils": 3,
+                        "stimme überwiegend zu": 4,
+                        "stimme voll and ganz zu": 5
+                    }
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "name": "Fremdenfeindlichkeit",
+            "items": [
+                {
+                    "item_id": "D4_1",
+                    "text": "Die Ausländer kommen nur hierher, um unseren Sozialstaat auszunutzen.",
+                    "bewertung": {
+                        "lehne völlig ab": 1,
+                        "lehne überwiegend ab": 2,
+                        "teils/teils": 3,
+                        "stimme überwiegend zu": 4,
+                        "stimme voll und ganz zu": 5
+                    }
+                },
+                {
+                    "item_id": "D4_2",
+                    "text": "Wenn Arbeitsplätze knapp werden, sollte man die Ausländer wieder in ihre Heimat zurückschicken.",
+                    "bewertung": {
+                        "lehne völlig ab": 1,
+                        "lehne überwiegend ab": 2,
+                        "teils/teils": 3,
+                        "stimme überwiegend zu": 4,
+                        "stimme voll und ganz zu": 5
+                    }
+                },
+                {
+                    "item_id": "D4_3",
+                    "text": "Die Bundesrepublik ist durch die vielen Ausländer in einem gefährlichen Maß überfremdet.",
+                    "bewertung": {
+                        "lehne völlig ab": 1,
+                        "lehne überwiegend ab": 2,
+                        "teils/teils": 3,
+                        "stimme überwiegend zu": 4,
+                        "stimme voll und ganz zu": 5
+                    }
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "name": "Antisemitismus",
+            "items": [
+                {
+                    "item_id": "D5_1",
+                    "text": "Auch heute noch ist der Einfluss der Juden zu groß.",
+                    "bewertung": {
+                        "lehne völlig ab": 1,
+                        "lehne überwiegend ab": 2,
+                        "teils/teils": 3,
+                        "stimme überwiegend zu": 4,
+                        "stimme voll und ganz zu": 5
+                    }
+                },
+                {
+                    "item_id": "D5_2",
+                    "text": "Die Juden arbeiten mehr als andere Menschen mit üblen Tricks, um das zu erreichen, was sie wollen.",
+                    "bewertung": {
+                        "lehne völlig ab": 1,
+                        "lehne überwiegend ab": 2,
+                        "teils/teils": 3,
+                        "stimme überwiegend zu": 4,
+                        "stimme voll und ganz zu": 5
+                    }
+                },
+                {
+                    "item_id": "D5_3",
+                    "text": "Die Juden haben einfach etwas Besonderes und Eigentümliches an sich und passen nicht so recht zu uns.",
+                    "bewertung": {
+                        "lehne völlig ab": 1,
+                        "lehne überwiegend ab": 2,
+                        "teils/teils": 3,
+                        "stimme überwiegend zu": 4,
+                        "stimme voll und ganz zu": 5
+                    }
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "name": "Sozialdarwinismus",
+            "items": [
+                {
+                    "item_id": "D6_1",
+                    "text": "Wie in der Natur sollte sich in der Gesellschaft immer der Stärkere durchsetzen.",
+                    "bewertung": {
+                        "lehne völlig ab": 1,
+                        "lehne überwiegend ab": 2,
+                        "teils/teils": 3,
+                        "stimme überwiegend zu": 4,
+                        "stimme voll und ganz zu": 5
+                    }
+                },
+                {
+                    "item_id": "D6_2",
+                    "text": "Eigentlich sind die Deutschen anderen Völkern von Natur aus überlegen.",
+                    "bewertung": {
+                        "lehne völlig ab": 1,
+                        "lehne überwiegend ab": 2,
+                        "teils/teils": 3,
+                        "stimme überwiegend zu": 4,
+                        "stimme voll und ganz zu": 5
+                    }
+                },
+                {
+                    "item_id": "D6_3",
+                    "text": "Es gibt wertvolles und unwertes Leben.",
+                    "bewertung": {
+                        "lehne völlig ab": 1,
+                        "lehne überwiegend ab": 2,
+                        "teils/teils": 3,
+                        "stimme überwiegend zu": 4,
+                        "stimme voll und ganz zu": 5
+                    }
+                }
+            ]
+        }
+    ]
+}

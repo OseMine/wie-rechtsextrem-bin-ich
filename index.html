@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rechtsextreme Einstellungen – Test</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="app">
+  <div id="welcome-screen" class="screen active">
+    <div class="card">
+      <h1>Rechtsextreme Einstellungen</h1>
+      <p class="subtitle">EINWURF – Zukunft der Demokratie 01.2021 &middot; Bertelsmann Stiftung</p>
+      <p class="desc">Dieser Fragebogen erfasst rechtsextreme Einstellungen anhand von <strong>18 Aussagen</strong> in <strong>6 Dimensionen</strong>. Bitte gib zu jeder Aussage an, inwieweit du zustimmst oder ablehnst.</p>
+      <ul class="scale-info">
+        <li><span class="dot opt-1-bg"></span> <strong>1</strong> – Lehne völlig ab</li>
+        <li><span class="dot opt-2-bg"></span> <strong>2</strong> – Lehne überwiegend ab</li>
+        <li><span class="dot opt-3-bg"></span> <strong>3</strong> – Teils/teils</li>
+        <li><span class="dot opt-4-bg"></span> <strong>4</strong> – Stimme überwiegend zu</li>
+        <li><span class="dot opt-5-bg"></span> <strong>5</strong> – Stimme voll und ganz zu</li>
+      </ul>
+      <p class="disclaimer">Hinweis: Dieser Test ersetzt keine professionelle Diagnose. Die Auswertung basiert auf der rechtsextremismus-Skala der Bertelsmann Stiftung.</p>
+      <button id="start-btn" class="btn btn-primary">Test starten</button>
+    </div>
+  </div>
+
+  <div id="test-screen" class="screen">
+    <div id="progress-container">
+      <div id="progress-bar"><div id="progress-fill"></div></div>
+      <div id="progress-text"></div>
+    </div>
+    <div class="card" id="question-card">
+      <h2 id="dimension-title"><span id="question-number-badge"></span><span id="dimension-name"></span></h2>
+      <div id="questions-container"></div>
+      <div class="nav-buttons">
+        <button id="prev-btn" class="btn btn-secondary" disabled>Zurück</button>
+        <button id="next-btn" class="btn btn-primary">Weiter</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="results-screen" class="screen">
+    <div class="card results-card">
+      <h1>Deine Ergebnisse</h1>
+      <div id="overall-result"></div>
+      <div id="dimension-results"></div>
+      <div id="score-details"></div>
+      <button id="restart-btn" class="btn btn-primary">Test wiederholen</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
