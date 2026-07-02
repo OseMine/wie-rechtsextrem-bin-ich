@@ -28,7 +28,7 @@ Online-Version: [wie-rechtsextrem-bin-ich-iota.vercel.app](https://wie-rechtsext
 
 ## Quelle
 
-Bertelsmann Stiftung (2021). *EINWURF – Zukunft der Demokratie 01.2021: Rechtsextreme Einstellungen der Wähler:innen vor der Bundestagswahl 2021*.
+Bertelsmann Stiftung (2021). [*EINWURF – Zukunft der Demokratie 01.2021: Rechtsextreme Einstellungen der Wähler:innen vor der Bundestagswahl 2021*](https://www.bertelsmann-stiftung.de/fileadmin/files/BSt/Publikationen/GrauePublikationen/ZD_Einwurf_1_2021.pdf).
 
 ## Lizenz
 
